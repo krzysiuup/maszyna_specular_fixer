@@ -8,6 +8,12 @@ class BindsStorage:
     def add(self, key, value):
         self._binds[key] = value
 
+    def get(self, key):
+        try:
+            return self._binds[key]
+        except KeyError:
+            return None
+
     def serialize(self):
         with open("binds.txt", "w") as file_:
             for key in self._binds.keys():

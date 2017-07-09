@@ -2,9 +2,11 @@ import os
 import logging
 
 class TextureSearcher:
-    def __init__(self, controller):
-        self.controller = controller
-        self.rewind()
+    def __init__(self):
+        self.set_working_path()
+
+    def set_working_path(self, path):
+        self.working_path = path
 
     def next(self):
         try:
@@ -20,7 +22,9 @@ class TextureSearcher:
         logging.info("Texture searcher generator was succesfully rewinded.")
 
     def _generate_absolute_textures_paths(self):
-        for line in open(os.path.join(self.controller.working_directory, file_)):
-            if "map" in line:
-                texture_path = line.split(":").strip()
-                yield texture_path
+        for file_ in os.listdir(self.working_path):
+            with open(os.path.join(self.working_path, file_)) as model_file:
+            for line in model_file:
+                if "map" in line:
+                    texture_path = line.split(":").strip()
+                    yield texture_path
