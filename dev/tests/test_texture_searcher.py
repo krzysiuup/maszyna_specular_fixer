@@ -13,7 +13,7 @@ class TestTextureSearcher(unittest.TestCase):
             mock_generator.return_value.__iter__.return_value = iter(items)
             result = self.texture_searcher.next()
             expected = "foo"
-            print(list(self.texture_searcher.generator)
+            print(list(self.texture_searcher.generator))
         self.assertEqual(expected, result)
 
     def test_next_should_return_false(self):
