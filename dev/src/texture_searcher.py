@@ -4,6 +4,7 @@ import logging
 class TextureSearcher:
     def __init__(self):
         self.rewind()
+        self.working_path = None
 
     def set_working_path(self, path):
         self.working_path = path

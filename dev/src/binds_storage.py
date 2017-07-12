@@ -24,5 +24,5 @@ class BindsStorage:
         with open("binds.txt", "w+") as file_:
             for line in file_:
                 key, value = line.split(":")
-                self._binds[key] = value
+                self._binds[key] = value.strip("\n")
         logging.info("Binds was succesfully restored from binds.txt")

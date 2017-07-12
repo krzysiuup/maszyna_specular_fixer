@@ -30,6 +30,35 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="7" column="1">
+     <widget class="QSpinBox" name="spinbox_specular_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QSlider" name="slider_specular_1">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0" colspan="5">
      <spacer name="verticalSpacer">
       <property name="orientation">
@@ -42,16 +71,6 @@
        </size>
       </property>
      </spacer>
-    </item>
-    <item row="8" column="0" colspan="5">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Wartości predefiniowane</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
     </item>
     <item row="1" column="0" colspan="5">
      <widget class="Line" name="line_2">
@@ -120,35 +139,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QSlider" name="slider_specular_1">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximum">
-       <number>255</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QSpinBox" name="spinbox_specular_2">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximum">
-       <number>255</number>
-      </property>
-     </widget>
-    </item>
     <item row="7" column="2">
      <widget class="QSpinBox" name="spinbox_specular_3">
       <property name="sizePolicy">
@@ -165,7 +155,23 @@
     <item row="6" column="4">
      <widget class="QPushButton" name="button_nexttex">
       <property name="text">
-       <string>Następna</string>
+       <string>Następna tekstura</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QSlider" name="slider_specular_3">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
@@ -179,6 +185,16 @@
       </property>
       <property name="text">
        <string>Matowy</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="5">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Wartości predefiniowane</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -208,22 +224,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="2">
-     <widget class="QSlider" name="slider_specular_3">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximum">
-       <number>255</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -235,21 +235,13 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="options_menu">
+   <widget class="QMenu" name="menu_set_working_path">
     <property name="title">
-     <string>Opcje</string>
+     <string>Wybierz ścieżkę roboczą</string>
     </property>
-    <addaction name="action_listingpath"/>
-    <addaction name="action_maszynaroot"/>
+    <addaction name="actionWybierz_lokalizacj"/>
    </widget>
-   <widget class="QMenu" name="menu_save">
-    <property name="title">
-     <string>Zapis</string>
-    </property>
-    <addaction name="action_savebindings"/>
-   </widget>
-   <addaction name="options_menu"/>
-   <addaction name="menu_save"/>
+   <addaction name="menu_set_working_path"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_listingpath">
@@ -267,6 +259,11 @@
     <string>Zapisz plik z bindingami</string>
    </property>
   </action>
+  <action name="actionWybierz_lokalizacj">
+   <property name="text">
+    <string>Wybierz lokalizację</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -277,12 +274,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>179</x>
-     <y>540</y>
+     <x>160</x>
+     <y>273</y>
     </hint>
     <hint type="destinationlabel">
-     <x>177</x>
-     <y>551</y>
+     <x>160</x>
+     <y>302</y>
     </hint>
    </hints>
   </connection>
@@ -293,12 +290,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>552</y>
+     <x>160</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
-     <x>151</x>
-     <y>534</y>
+     <x>160</x>
+     <y>273</y>
     </hint>
    </hints>
   </connection>
@@ -309,12 +306,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>52</x>
-     <y>528</y>
+     <x>61</x>
+     <y>273</y>
     </hint>
     <hint type="destinationlabel">
-     <x>52</x>
-     <y>555</y>
+     <x>61</x>
+     <y>302</y>
     </hint>
    </hints>
   </connection>
@@ -325,12 +322,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>30</x>
-     <y>555</y>
+     <x>39</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
-     <x>33</x>
-     <y>537</y>
+     <x>42</x>
+     <y>273</y>
     </hint>
    </hints>
   </connection>
@@ -341,12 +338,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>284</x>
-     <y>540</y>
+     <x>241</x>
+     <y>273</y>
     </hint>
     <hint type="destinationlabel">
-     <x>284</x>
-     <y>556</y>
+     <x>241</x>
+     <y>302</y>
     </hint>
    </hints>
   </connection>
@@ -357,12 +354,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>308</x>
-     <y>549</y>
+     <x>241</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
-     <x>308</x>
-     <y>538</y>
+     <x>241</x>
+     <y>273</y>
     </hint>
    </hints>
   </connection>
