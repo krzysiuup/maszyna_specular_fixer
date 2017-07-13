@@ -19,7 +19,6 @@ class SpecularFixer(QtWidgets.QMainWindow):
 
         self.binds_storage = BindsStorage()
         self.texture_searcher = TextureSearcher()
-        self.model_corrector = ModelCorrector(self)
 
     def setup_buttons(self):
         self.ui.menu_set_working_path.triggered.connect(self.get_working_path)
@@ -30,34 +29,32 @@ class SpecularFixer(QtWidgets.QMainWindow):
         self.working_path = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Wybierz ścieżkę, z której chcesz poprawić modele."))
         self.texture_searcher.set_working_path(self.working_path)
         logging.info("Working path was set to {}".format(self.working_path))
-        self.get_root_path()
+        self.set_cwd_to_maszyna_root_path()
 
-    def get_root_path(self):
-        get_root_thread = threading.Thread(target=self._get_root).start()
-
-    def _get_root(self):
-        path = self.working_path
-        tail = None
-        if "dynamic" in path or "models" in path:
-            while tail != "dynamic" or tail != "models":
-                path, tail = os.path.split(path)
+    def set_cwd_to_maszyna_root_path(self):
+        path_parts = self.working_path.split("\\")
+        if "dynamic" in path_parts:
+            end_component = "dynamic"
+        elif "models" in path_parts:
+            end_component = "models"
         else:
-            warning = QtWidgets.QMessageBox.information(self, "Błędna ścieżka?", "Ścieżka musi prowadzić do podfolderów dynamic lub models!")
+            QtWidgets.QMessageBox.information(self, "Błędna ścieżka?", "Ścieżka musi prowadzić do podfolderów dynamic/... lub models/...!")
+            end_component = path_parts[0]
+        os.chdir("\\".join(path_parts[0:path_parts.index(end_component)]))
 
     def get_next_texture_path(self):
         self.current_texture_path = self.texture_searcher.next()
         if self.current_texture_path:
             self.ui.label_texturename.setText(os.path.relpath(self.current_texture_path, self.root_path))
         else:
-            is_work_done = QtWidgets.QMessageBox.information(self, "Koniec kolejki", "Brak tekstur w kolejce. Wybierz kolejny folder.")
+            QtWidgets.QMessageBox.information(self, "Koniec kolejki", "Brak tekstur w kolejce. Wybierz kolejny folder.")
 
     def set_specular(self):
-        texture_path_head, texture_path_tail = os.path.split(self.current_texture_path)
-        final_texture_path = os.path.relpath(self.texture_path_head, os.path.join(self.root_path, "textures"))
+        texture_path = os.path.relpath(self.current_file_path, "textures")
 
         specular = "{} {} {}".format(
             self.ui.spinbox_specular_1.value(),
             self.ui.spinbox_specular_2.value(),
             self.ui.spinbox_specular_3.value()
             )
-        self.binds_storage.add(path, specular)
+        self.binds_storage.add(texture_path, specular)
