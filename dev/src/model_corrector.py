@@ -6,7 +6,6 @@ class ModelCorrector:
         self.OUTPUT_DIR_ROOT = "SPECULARS_FIXED"
         self.controller = controller
         self.textures_queue = []
-        correcting = False
 
     def _iterate_files(self):
         for filename in os.listdir(self.controller.working_path):
@@ -32,3 +31,4 @@ class ModelCorrector:
                     new_specular = self.controller.binds_storage[next(self.textures_queue)]
                     line = line.replace(old_specular, new_specular)
                 output_file.write(line)
+            logging.info("Corrected model: {} was saved in {}".format(input_path, output_path))

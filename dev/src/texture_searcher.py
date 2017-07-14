@@ -3,11 +3,11 @@ import logging
 
 class TextureSearcher:
     def __init__(self):
-        self.rewind()
-        self.working_path = None
+        self.working_path = ""
 
     def set_working_path(self, path):
         self.working_path = path
+        self.rewind()
 
     def next(self):
         try:
@@ -27,7 +27,7 @@ class TextureSearcher:
             if filename.endswith(".t3d"):
                 with open(os.path.join(self.working_path, filename)) as model_file:
                     for line in model_file:
-                        if "map" in line:
+                        if "map:" in line:
                             texture_path = line.split(":").strip()
                             logging.info("Texture searcher returned next texture: {}".format(texture_path))
                             yield texture_path
