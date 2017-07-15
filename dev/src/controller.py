@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets
 
 from dev.ui.main import Ui_MainWindow
 from dev.src.texture_searcher import TextureSearcher
+from dev.src.model_searcher import ModelSearcher
 from dev.src.binds_storage import BindsStorage
 
 class Controller(QtWidgets.QMainWindow):
@@ -15,6 +16,7 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.setup_buttons()
 
+        self.model_searcher = ModelSearcher()
         self.texture_searcher = TextureSearcher()
         self.binds_storage = BindsStorage()
 
@@ -36,14 +38,14 @@ class Controller(QtWidgets.QMainWindow):
         self.root_path = pathlib.Path(*self.working_path.parts[0:self.working_path.parts.index(end_component)])
         os.chdir(self.root_path)
         logging.info("Current working directory is now in {}".format(self.root_path))
-        self.texture_searcher.set_working_path(pathlib.Path(self.working_path).relative_to(self.root_path))
+        self.model_searcher.set_working_path(pathlib.Path(self.working_path).relative_to(self.root_path))
 
     def get_next_texture_path(self):
-        self.current_texture_path = self.texture_searcher.next()
-        if self.current_texture_path:
-            self.ui.label_texturename.setText(str(self.current_texture_path))
-        else:
-            QtWidgets.QMessageBox.information(self, "Koniec kolejki.", "Brak tekstur w kolejce. Wybierz kolejny folder.")
+        model_path = self.model_searcher.get_next_model_path()
+        if model_path:
+            self.texture_searcher.set_working_file(model_path)
+            texture_path = self.texture_searcher.get_next_texture_path()
+
 
     def set_specular(self):
         texture_path = self.current_texture_path.relative_to("textures")

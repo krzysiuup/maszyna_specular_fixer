@@ -7,6 +7,7 @@ class ModelSearcher:
         self.models_paths_queue = None
 
     def set_working_path(self, working_path):
+        """ working_path -> pathlib.Path """
         self.working_path = working_path
         self.models_paths_queue = self._models_generator()
         logging.info("ModelSearcher: Working path was set: {}".format(self.working_path))

@@ -6,9 +6,11 @@ class BindsStorage:
         self._deserialize()
 
     def add(self, key, value):
+        """ key -> str ; value -> str """
         self._binds[key] = value
 
     def get(self, key):
+        """ key -> str """
         try:
             return self._binds[key]
         except KeyError:
