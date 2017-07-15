@@ -1,20 +1,29 @@
 import os
 import logging
+import pathlib
 
 class ModelCorrector:
-    def __init__(self, controller):
+    def __init__(self):
         self.OUTPUT_DIR_ROOT = "SPECULARS_FIXED"
-        self.controller = controller
         self.textures_queue = []
+        self.working_path = None
+        self.current_file_path = None
 
-    def _iterate_files(self):
-        for filename in os.listdir(self.controller.working_path):
+    def set_working_path(self, path):
+        self.working_path = path
+
+    def fix_models(self, binds_storage):
+        self.binds_storage = binds_storage
+        self._get_t3d_files()
+
+    def _get_t3d_files(self):
+        for filename in os.listdir(self.working_path):
             if filename.endswith(".t3d"):
-                self.current_file_path = os.path.join(self.controller.working_path, filename)
-                self._handle_line_from_file()
+                self.current_file_path = pathlib.Path(self.working_path, filename)
+                self._get_textures_order_from_file()
 
-    def _fill_textures_queue(self):
-        with open(self.controller.current_file_path) as model_file:
+    def _get_textures_order_from_file(self):
+        with open(self.current_file_path) as model_file:
             for line in model_file:
                 if "map:" in line.lower():
                     texture_path = line.split(":")[1].strip()
@@ -23,12 +32,11 @@ class ModelCorrector:
             self._save_fixed_file()
 
     def _save_fixed_file(self):
-        output_path = os.path.join(OUTPUT_DIR_ROOT, self.controller.current_file_path)
-        with open(output_path, "w") as output_file, open(self.controller.current_file_path) as old_file:
+        with open( "w") as output_file, open(self.controller.current_file_path) as old_file:
             for line in old_file:
                 if "specular:" in line.lower():
                     old_specular = line.split(":")[1].strip()
-                    new_specular = self.controller.binds_storage[next(self.textures_queue)]
+                    new_specular = self.binds_storage[next(self.textures_queue)]
                     line = line.replace(old_specular, new_specular)
                 output_file.write(line)
             logging.info("Corrected model: {} was saved in {}".format(input_path, output_path))
